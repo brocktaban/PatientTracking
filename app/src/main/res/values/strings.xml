@@ -17,4 +17,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a elit dignissim, cursus
+        massa at, lacinia nisi. Quisque sodales commodo consequat. Donec sagittis finibus odio nec scelerisque. Donec
+        fringilla at lorem vestibulum accumsan
+    </string>
 </resources>

@@ -18,4 +18,16 @@
                 android:title="Nearby Hospitals"/>
     </group>
 
+    <item android:title="Account">
+        <menu>
+            <item
+                    android:id="@+id/nav_account"
+                    android:icon="@drawable/ic_person_black_24dp"
+                    android:title="Your Account" />
+            <item
+                    android:id="@+id/nav_bookmarks"
+                    android:icon="@drawable/ic_bookmark_black_24dp"
+                    android:title="Your visited Patients" />
+        </menu>
+    </item>
 </menu>

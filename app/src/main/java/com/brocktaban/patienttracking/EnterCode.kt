@@ -75,6 +75,7 @@ class EnterCode : Fragment(), AnkoLogger {
             }
 
             (activity as MainActivity).changeFragment(Info())
+            (activity as MainActivity).activateNavItem(1)
         }
     }
 }
