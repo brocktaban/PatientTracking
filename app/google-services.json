@@ -1,0 +1,44 @@
+{
+  "project_info": {
+    "project_number": "788742440051",
+    "firebase_url": "https://patient-tracker-d7c77.firebaseio.com",
+    "project_id": "patient-tracker-d7c77",
+    "storage_bucket": "patient-tracker-d7c77.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788742440051:android:32916885e2334c9f",
+        "android_client_info": {
+          "package_name": "com.brocktaban.patienttracking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "788742440051-svlshm2q96o9ap2a4j566h0bpi499o0k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.brocktaban.patienttracking",
+            "certificate_hash": "41906a9fdbf47d7a2a20e8396dc2a9420da7e09a"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXfeT2IcQ6JQ9LEG1OYLGUv7kue-dgAKs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "788742440051-007mmq7p21nklp6r37rfhl7oi9kgsbbh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
