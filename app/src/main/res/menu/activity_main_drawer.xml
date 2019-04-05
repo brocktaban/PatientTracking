@@ -5,34 +5,17 @@
 
     <group android:checkableBehavior="single">
         <item
-                android:id="@+id/nav_home"
-                android:icon="@drawable/ic_menu_camera"
-                android:title="@string/menu_home"/>
+                android:id="@+id/nav_enter_code"
+                android:icon="@drawable/ic_code_black_24dp"
+                android:title="Enter Code"/>
         <item
-                android:id="@+id/nav_gallery"
-                android:icon="@drawable/ic_menu_gallery"
-                android:title="@string/menu_gallery"/>
+                android:id="@+id/nav_patient"
+                android:icon="@drawable/ic_patients__black_24dp"
+                android:title="Your Patients"/>
         <item
-                android:id="@+id/nav_slideshow"
-                android:icon="@drawable/ic_menu_slideshow"
-                android:title="@string/menu_slideshow"/>
-        <item
-                android:id="@+id/nav_tools"
-                android:icon="@drawable/ic_menu_manage"
-                android:title="@string/menu_tools"/>
+                android:id="@+id/nav_hospital"
+                android:icon="@drawable/ic_local_hospital_black_24dp"
+                android:title="Nearby Hospitals"/>
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                    android:id="@+id/nav_share"
-                    android:icon="@drawable/ic_menu_share"
-                    android:title="@string/menu_share"/>
-            <item
-                    android:id="@+id/nav_send"
-                    android:icon="@drawable/ic_menu_send"
-                    android:title="@string/menu_send"/>
-        </menu>
-    </item>
 
 </menu>

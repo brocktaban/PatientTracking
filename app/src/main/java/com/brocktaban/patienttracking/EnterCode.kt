@@ -1,26 +1,30 @@
 package com.brocktaban.patienttracking
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputFilter
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_patient_code.*
-import org.jetbrains.anko.design.snackbar
 import android.view.inputmethod.InputMethodManager
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.fragment_enter_code.*
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.wtf
 
-
-class PatientCode : AppCompatActivity(), AnkoLogger {
+class EnterCode : Fragment(), AnkoLogger {
 
     private lateinit var db: FirebaseFirestore
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_patient_code)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        val v = inflater.inflate(R.layout.fragment_enter_code, container, false)
 
         db = FirebaseFirestore.getInstance()
 
@@ -43,15 +47,17 @@ class PatientCode : AppCompatActivity(), AnkoLogger {
 
             checkCode(code)
         }
+
+        return v
     }
 
     private fun checkCode(code: String) {
         btn_track_patient.isEnabled = false
 
-        val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         inputManager.hideSoftInputFromWindow(
-            currentFocus!!.windowToken,
+            activity?.currentFocus!!.windowToken,
             InputMethodManager.HIDE_NOT_ALWAYS
         )
 
@@ -68,7 +74,7 @@ class PatientCode : AppCompatActivity(), AnkoLogger {
                 return@addOnCompleteListener
             }
 
-            startActivity(intentFor<PatientInfo>("code" to code))
+//            (activity as MainActivity).changeFragment()
         }
     }
 }
