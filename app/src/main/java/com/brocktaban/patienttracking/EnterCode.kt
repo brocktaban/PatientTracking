@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.fragment_enter_code.*
+import kotlinx.android.synthetic.main.fragment_enter_code.view.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.wtf
@@ -28,13 +28,13 @@ class EnterCode : Fragment(), AnkoLogger {
 
         db = FirebaseFirestore.getInstance()
 
-        et_patient_code.filters = arrayOf(InputFilter.AllCaps(), InputFilter.LengthFilter(5))
+        v.et_patient_code.filters = arrayOf(InputFilter.AllCaps(), InputFilter.LengthFilter(5))
 
-        et_patient_code.setOnEditorActionListener { _, actionId, _ ->
+        v.et_patient_code.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                val code = et_patient_code.text.toString()
+                val code = v.et_patient_code.text.toString()
 
-                checkCode(code)
+                checkCode(code, v)
 
                 return@setOnEditorActionListener true
             }
@@ -42,17 +42,17 @@ class EnterCode : Fragment(), AnkoLogger {
             return@setOnEditorActionListener false
         }
 
-        btn_track_patient.setOnClickListener {
-            val code = et_patient_code.text.toString()
+        v.btn_track_patient.setOnClickListener {
+            val code = v.et_patient_code.text.toString()
 
-            checkCode(code)
+            checkCode(code, v)
         }
 
         return v
     }
 
-    private fun checkCode(code: String) {
-        btn_track_patient.isEnabled = false
+    private fun checkCode(code: String, v: View) {
+        v.btn_track_patient.isEnabled = false
 
         val inputManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
@@ -62,7 +62,7 @@ class EnterCode : Fragment(), AnkoLogger {
         )
 
         db.collection("patients").document(code).get().addOnCompleteListener { task ->
-            btn_track_patient.isEnabled = true
+            v.btn_track_patient.isEnabled = true
 
             if (!task.isSuccessful) {
                 wtf("Could not get patients document", task.exception)
@@ -70,11 +70,11 @@ class EnterCode : Fragment(), AnkoLogger {
             }
 
             if (!task.result!!.exists()) {
-                main.snackbar("Code is not exist")
+                v.main.snackbar("Code is not exist")
                 return@addOnCompleteListener
             }
 
-//            (activity as MainActivity).changeFragment()
+            (activity as MainActivity).changeFragment(Info())
         }
     }
 }
