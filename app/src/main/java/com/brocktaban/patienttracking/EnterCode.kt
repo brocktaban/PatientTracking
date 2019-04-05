@@ -9,15 +9,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_enter_code.view.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.info
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.wtf
 
 class EnterCode : Fragment(), AnkoLogger {
 
     private lateinit var db: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,6 +32,7 @@ class EnterCode : Fragment(), AnkoLogger {
         val v = inflater.inflate(R.layout.fragment_enter_code, container, false)
 
         db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
 
         v.et_patient_code.filters = arrayOf(InputFilter.AllCaps(), InputFilter.LengthFilter(5))
 
@@ -74,8 +80,43 @@ class EnterCode : Fragment(), AnkoLogger {
                 return@addOnCompleteListener
             }
 
+            addToPatientList(code)
+
             (activity as MainActivity).changeFragment(Info())
             (activity as MainActivity).activateNavItem(1)
+        }
+    }
+
+    private fun addToPatientList(code: String) {
+
+        val userMap = HashMap<String, Any>()
+
+
+        userMap["timestamp"] = FieldValue.serverTimestamp()
+        userMap["code"] = code
+
+        db
+            .collection("users")
+            .document(auth.currentUser!!.uid)
+            .collection("patients")
+            .document(code).set(userMap)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        val currentUser = auth.currentUser
+
+        if (currentUser == null) {
+            auth.signInAnonymously()
+                .addOnCompleteListener{ task ->
+                    if (task.isSuccessful) {
+                        info( "signInAnonymously:success")
+                    } else {
+                        wtf(  "signInAnonymously:failure", task.exception)
+                        activity?.toast("Authentication failed.")
+                    }
+                }
         }
     }
 }
