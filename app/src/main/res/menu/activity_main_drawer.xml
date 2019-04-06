@@ -13,6 +13,10 @@
                 android:icon="@drawable/ic_patients__black_24dp"
                 android:title="Your Patients"/>
         <item
+                android:id="@+id/nav_history"
+                android:icon="@drawable/ic_history_black_24dp"
+                android:title="History"/>
+        <item
                 android:id="@+id/nav_hospital"
                 android:icon="@drawable/ic_local_hospital_black_24dp"
                 android:title="Nearby Hospitals"/>

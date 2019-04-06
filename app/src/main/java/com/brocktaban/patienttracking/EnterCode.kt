@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.fragment_enter_code.view.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.design.snackbar
@@ -82,7 +83,7 @@ class EnterCode : Fragment(), AnkoLogger {
 
             addToPatientList(code)
 
-            (activity as MainActivity).changeFragment(Info())
+            (activity as MainActivity).changeFragment(Info(code))
             (activity as MainActivity).activateNavItem(1)
         }
     }
@@ -99,7 +100,7 @@ class EnterCode : Fragment(), AnkoLogger {
             .collection("users")
             .document(auth.currentUser!!.uid)
             .collection("patients")
-            .document(code).set(userMap)
+            .document(code).set(userMap, SetOptions.merge())
     }
 
     override fun onStart() {

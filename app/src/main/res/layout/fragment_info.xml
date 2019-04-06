@@ -11,13 +11,11 @@
             android:id="@+id/avatar"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@mipmap/ic_launcher_round"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
             android:id="@+id/name"
-            android:text="NAME"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -29,7 +27,6 @@
 
     <TextView
             android:id="@+id/status"
-            android:text="Status: Dead  "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/TextAppearance.MaterialComponents.Subtitle1"
@@ -40,7 +37,6 @@
     <TextView
             android:justificationMode="inter_word"
             android:id="@+id/description"
-            android:text="@string/lorem_ipsum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -60,7 +56,6 @@
 
     <TextView
             android:id="@+id/medicines"
-            android:text="Aspirin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/TextAppearance.MaterialComponents.Body2"
@@ -69,7 +64,7 @@
 
     <com.google.android.material.button.MaterialButton
             android:id="@+id/visit"
-            android:text="mark as visitied"
+            android:text="add to your list"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
