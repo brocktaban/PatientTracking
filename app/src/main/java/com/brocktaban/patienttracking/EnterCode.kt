@@ -83,7 +83,7 @@ class EnterCode : Fragment(), AnkoLogger {
 
             addToPatientList(code)
 
-            (activity as MainActivity).changeFragment(Info(code))
+            (activity as MainActivity).changeFragment(Info(code), "Patient Info")
             (activity as MainActivity).activateNavItem(1)
         }
     }

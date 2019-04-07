@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(toolbar)
+        title = getString(R.string.app_name)
 
 //        val fab: FloatingActionButton = findViewById(R.id.fab)
 //        fab.setOnClickListener { view ->
@@ -83,22 +84,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_enter_code -> changeFragment(EnterCode())
+            R.id.nav_enter_code -> changeFragment(EnterCode(), getString(R.string.app_name))
             R.id.nav_patient -> {
 
             }
             R.id.nav_hospital -> {
 
             }
-            R.id.nav_history -> changeFragment(History())
+            R.id.nav_history -> changeFragment(History(), "History")
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 
-    fun changeFragment(fragment: Fragment) {
+    fun changeFragment(fragment: Fragment, title: String) {
         supportFragmentManager.beginTransaction().replace(R.id.frame_layout, fragment).commit()
+        toolbar.title = title
     }
 
     fun activateNavItem(item: Int) {

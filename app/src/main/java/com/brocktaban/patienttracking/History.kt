@@ -100,12 +100,12 @@ class History : Fragment(), AnkoLogger {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val patient = items[position]
 
-            Glide.with(context).load(patient.avatar).into(holder.avatar)
+            Glide.with(context).load("https://api.adorable.io/avatars/285/${patient.id}.png").into(holder.avatar)
 
             holder.name.text = patient.name
 
             holder.main.setOnClickListener {
-                activity.changeFragment(Info(patient.id!!))
+                activity.changeFragment(Info(patient.id!!), "Patient Info")
                 activity.activateNavItem(1)
             }
 
