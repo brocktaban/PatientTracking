@@ -83,15 +83,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_enter_code -> {
-                changeFragment(EnterCode())
-            }
+            R.id.nav_enter_code -> changeFragment(EnterCode())
             R.id.nav_patient -> {
 
             }
             R.id.nav_hospital -> {
 
             }
+            R.id.nav_history -> changeFragment(History())
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -107,6 +106,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             0 -> nav_view.setCheckedItem(R.id.nav_enter_code)
             1 -> nav_view.setCheckedItem(R.id.nav_patient)
             2 -> nav_view.setCheckedItem(R.id.nav_hospital)
+            3 -> nav_view.setCheckedItem(R.id.nav_history)
         }
     }
 }
