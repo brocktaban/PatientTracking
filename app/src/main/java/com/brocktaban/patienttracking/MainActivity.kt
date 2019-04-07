@@ -85,9 +85,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_enter_code -> changeFragment(EnterCode(), getString(R.string.app_name))
-            R.id.nav_patient -> {
-
-            }
+            R.id.nav_patient -> changeFragment(YourPatients(), "Your Patients")
             R.id.nav_hospital -> {
 
             }

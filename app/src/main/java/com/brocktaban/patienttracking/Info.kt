@@ -63,8 +63,8 @@ class Info(val code: String) : Fragment(), AnkoLogger {
             .document(code)
             .get()
             .addOnSuccessListener { documentSnapshot ->
-                if (documentSnapshot.data?.get("bookmarked") != null) {
-                    followed = documentSnapshot.data?.get("bookmarked") as Boolean
+                if (documentSnapshot.data?.get("followed") != null) {
+                    followed = documentSnapshot.data?.get("followed") as Boolean
 
                     if (followed) {
                         v.visit.text = "unfollow"
