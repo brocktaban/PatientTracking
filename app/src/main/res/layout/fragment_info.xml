@@ -35,18 +35,17 @@
             android:layout_marginStart="16dp"/>
 
     <TextView
-            android:justificationMode="inter_word"
             android:id="@+id/description"
+            android:text="@string/lorem_ipsum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            style="@style/TextAppearance.MaterialComponents.Body2"
             app:layout_constraintTop_toBottomOf="@+id/avatar"
             app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
             android:id="@+id/medicine_title"
-            android:text="Medicines"
+            android:text="@string/patient_medicine_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -64,7 +63,7 @@
 
     <com.google.android.material.button.MaterialButton
             android:id="@+id/visit"
-            android:text="add to your list"
+            android:text="Add to your List"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -75,7 +74,7 @@
 
     <com.google.android.material.button.MaterialButton
             android:id="@+id/report"
-            android:text="Report"
+            android:text="Write Report"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
