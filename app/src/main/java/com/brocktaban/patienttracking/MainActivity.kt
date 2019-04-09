@@ -1,20 +1,17 @@
 package com.brocktaban.patienttracking
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import org.jetbrains.anko.toast
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -25,6 +22,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(toolbar)
+        title = getString(R.string.app_name)
+
+        if (intent.data != null) {
+            val auth = FirebaseAuth.getInstance()
+            val data = intent.data.toString()
+            if (auth.isSignInWithEmailLink(data))
+                changeFragment(Account(data), "Your Account")
+        }
 
 //        val fab: FloatingActionButton = findViewById(R.id.fab)
 //        fab.setOnClickListener { view ->
@@ -49,7 +54,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
             supportFragmentManager.beginTransaction()
-                .add(R.id.frame_layout, firstFragment).commit()
+                .replace(R.id.frame_layout, firstFragment).commit()
 
             activateNavItem(0)
         }
@@ -83,23 +88,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_enter_code -> {
-                changeFragment(EnterCode())
-            }
-            R.id.nav_patient -> {
-
-            }
+            R.id.nav_enter_code -> changeFragment(EnterCode(), getString(R.string.app_name))
+            R.id.nav_patient -> changeFragment(YourPatients(), "Your Patients")
             R.id.nav_hospital -> {
 
             }
+            R.id.nav_history -> changeFragment(History(), "History")
+            R.id.nav_account -> changeFragment(Account(), "Your Account")
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 
-    fun changeFragment(fragment: Fragment) {
+    fun changeFragment(fragment: Fragment, title: String) {
         supportFragmentManager.beginTransaction().replace(R.id.frame_layout, fragment).commit()
+        toolbar.title = title
     }
 
     fun activateNavItem(item: Int) {
@@ -107,6 +111,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             0 -> nav_view.setCheckedItem(R.id.nav_enter_code)
             1 -> nav_view.setCheckedItem(R.id.nav_patient)
             2 -> nav_view.setCheckedItem(R.id.nav_hospital)
+            3 -> nav_view.setCheckedItem(R.id.nav_history)
         }
     }
 }
