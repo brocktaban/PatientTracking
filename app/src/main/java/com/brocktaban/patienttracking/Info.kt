@@ -20,7 +20,7 @@ class Info(val code: String) : Fragment(), AnkoLogger {
     private lateinit var db: FirebaseFirestore
     private lateinit var mAuth: FirebaseAuth
 
-    private var bookmarked: Boolean = false
+    private var followed: Boolean = false
     private var reported: Boolean = false
 
     override fun onCreateView(
@@ -42,7 +42,7 @@ class Info(val code: String) : Fragment(), AnkoLogger {
 
             var meds = ""
 
-            Glide.with(context!!).load(patient?.avatar).into(v.avatar)
+            Glide.with(context!!).load("https://api.adorable.io/avatars/285/${patient?.id}.png").into(v.avatar)
 
             v.name.text = patient?.name
             v.status.text = "Status: ${patient?.status}"
@@ -63,13 +63,13 @@ class Info(val code: String) : Fragment(), AnkoLogger {
             .document(code)
             .get()
             .addOnSuccessListener { documentSnapshot ->
-                if (documentSnapshot.data?.get("bookmarked") != null) {
-                    bookmarked = documentSnapshot.data?.get("bookmarked") as Boolean
+                if (documentSnapshot.data?.get("followed") != null) {
+                    followed = documentSnapshot.data?.get("followed") as Boolean
 
-                    if (bookmarked) {
-                        v.visit.text = "remove from your list"
+                    if (followed) {
+                        v.visit.text = "unfollow"
                     } else {
-                        v.visit.text = "add to your list"
+                        v.visit.text = "follow"
                     }
                 }
             }
@@ -90,10 +90,10 @@ class Info(val code: String) : Fragment(), AnkoLogger {
 
             val patientMap = HashMap<String, Any>()
 
-            bookmarked = !bookmarked
+            followed = !followed
 
             patientMap["lastEdited"] = FieldValue.serverTimestamp()
-            patientMap["bookmarked"] = bookmarked
+            patientMap["followed"] = followed
 
 
             db
@@ -103,10 +103,10 @@ class Info(val code: String) : Fragment(), AnkoLogger {
                 .document(code)
                 .update(patientMap)
                 .addOnSuccessListener {
-                    if (bookmarked) {
-                        v.visit.text = "remove from your list"
+                    if (followed) {
+                        v.visit.text = "unfollow"
                     } else {
-                        v.visit.text = "add to your list"
+                        v.visit.text = "follow"
                     }
                 }
         }

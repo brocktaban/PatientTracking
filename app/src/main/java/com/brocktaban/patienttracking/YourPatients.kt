@@ -12,16 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.fragment_history.view.*
+import kotlinx.android.synthetic.main.fragment_your_patients.view.*
 import kotlinx.android.synthetic.main.item_history.view.*
-import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.design.snackbar
-import org.jetbrains.anko.wtf
 
-/**
- * A simple [Fragment] subclass.
- */
-class History : Fragment(), AnkoLogger {
+class YourPatients : Fragment() {
 
     private lateinit var db: FirebaseFirestore
     private lateinit var mAuth: FirebaseAuth
@@ -33,7 +28,7 @@ class History : Fragment(), AnkoLogger {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v = inflater.inflate(R.layout.fragment_history, container, false)
+        val v = inflater.inflate(R.layout.fragment_your_patients, container, false)
 
         db = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance()
@@ -53,37 +48,29 @@ class History : Fragment(), AnkoLogger {
             .collection("users")
             .document(mAuth.currentUser?.uid!!)
             .collection("patients")
+            .whereEqualTo("followed", true)
             .get()
-            .addOnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    v.main.snackbar("Database Error")
-                    wtf("Could not get user's patients", task.exception)
-                    return@addOnCompleteListener
+            .addOnSuccessListener { querySnapshot ->
+                if (querySnapshot.isEmpty) {
+                    v.main.snackbar("You don't have any patients")
+                    return@addOnSuccessListener
                 }
 
-                if (task.result?.isEmpty!!) {
-                    v.main.snackbar("You don't have any history")
-                    return@addOnCompleteListener
-                }
-
-                for (x in task.result!!.documents) {
-
-                    val id = x.id
-
+                for (x in querySnapshot.documents) {
                     db
                         .collection("patients")
-                        .document(id)
+                        .document(x.id)
                         .get()
                         .addOnSuccessListener { documentSnapshot ->
                             val patient = documentSnapshot.toObject(Patient::class.java)
+
                             patient?.let {
                                 items.add(it)
                                 mAdapter.notifyDataSetChanged()
-
                             }
+
                         }
                 }
-
             }
     }
 
