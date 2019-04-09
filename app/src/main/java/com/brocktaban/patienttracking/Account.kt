@@ -2,7 +2,6 @@ package com.brocktaban.patienttracking
 
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,11 +10,10 @@ import android.view.ViewGroup
 import com.google.firebase.auth.ActionCodeSettings
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.dynamiclinks.DynamicLink
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import kotlinx.android.synthetic.main.fragment_account.view.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.wtf
 
 class Account(val intentValue: String? = null) : Fragment(), AnkoLogger {
@@ -41,27 +39,43 @@ class Account(val intentValue: String? = null) : Fragment(), AnkoLogger {
 
                 val credential = EmailAuthProvider.getCredentialWithLink(email, intentValue)
 
-                mAuth.currentUser!!.linkWithCredential(credential)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            v.main.snackbar("Success")
-                            val result = task.result
-                            // You can access the new user via result.getUser()
-                            // Additional user info profile *not* available via:
-                            // result.getAdditionalUserInfo().getProfile() == null
-                            // You can check if the user is new or existing:
-                            // result.getAdditionalUserInfo().isNewUser()
+                if (mAuth.currentUser != null) {
+                    mAuth.currentUser!!.linkWithCredential(credential)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                context?.toast("Success")
+                                val result = task.result
+                                // You can access the new user via result.getUser()
+                                // Additional user info profile *not* available via:
+                                // result.getAdditionalUserInfo().getProfile() == null
+                                // You can check if the user is new or existing:
+                                // result.getAdditionalUserInfo().isNewUser()
 
-                            context?.deleteFile(filename)
-
-                        } else {
-                            wtf("Error signing in with email link", task.exception)
+                                context?.deleteFile(filename)
+                            } else {
+                                wtf("Error signing in with email link", task.exception)
+                            }
                         }
-                    }
+                } else {
+                    mAuth.signInWithEmailLink(email, intentValue)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                context?.toast("Success")
+                                val result = task.result
+                                // You can access the new user via result.getUser()
+                                // Additional user info profile *not* available via:
+                                // result.getAdditionalUserInfo().getProfile() == null
+                                // You can check if the user is new or existing:
+                                // result.getAdditionalUserInfo().isNewUser()
+
+                                context?.deleteFile(filename)
+                            } else {
+                                wtf("Error signing in with email link", task.exception)
+                            }
+                        }
+                }
             }
         }
-
-
 
 
         v.sign_in.setOnClickListener {
@@ -99,6 +113,4 @@ class Account(val intentValue: String? = null) : Fragment(), AnkoLogger {
 
         return v
     }
-
-
 }
